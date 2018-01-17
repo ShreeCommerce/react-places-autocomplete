@@ -26,20 +26,16 @@ class PlacesAutocomplete extends Component {
   }
 
   componentDidMount() {
-    if (!window.google) {
-      throw new Error(
-        'Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
-      )
-    }
+    const mapsClient = this.props.mapsClient || (window.google && window.google.maps);
 
-    if (!window.google.maps.places) {
+    if (!(mapsClient && mapsClient.places)) {
       throw new Error(
         'Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library'
       )
     }
 
-    this.autocompleteService = new google.maps.places.AutocompleteService()
-    this.autocompleteOK = google.maps.places.PlacesServiceStatus.OK
+    this.autocompleteService = new mapsClient.places.AutocompleteService()
+    this.autocompleteOK = mapsClient.places.PlacesServiceStatus.OK
   }
 
   autocompleteCallback(predictions, status) {
