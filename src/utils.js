@@ -1,6 +1,6 @@
-export const geocodeByAddress = (address, callback) => {
-  const geocoder = new google.maps.Geocoder()
-  const OK = google.maps.GeocoderStatus.OK
+export const geocodeByAddress = (address, callback, mapsClient = window.google.maps) => {
+  const geocoder = new mapsClient.Geocoder()
+  const OK = mapsClient.GeocoderStatus.OK
 
   return new Promise((resolve, reject) => {
     geocoder.geocode({ address }, (results, status) => {
@@ -48,9 +48,9 @@ export const getLatLng = result => {
   })
 }
 
-export const geocodeByPlaceId = (placeId, callback) => {
-  const geocoder = new google.maps.Geocoder()
-  const OK = google.maps.GeocoderStatus.OK
+export const geocodeByPlaceId = (placeId, callback, mapsClient = window.google.maps) => {
+  const geocoder = new mapsClient.Geocoder()
+  const OK = mapsClient.GeocoderStatus.OK
 
   return new Promise((resolve, reject) => {
     geocoder.geocode({ placeId }, (results, status) => {

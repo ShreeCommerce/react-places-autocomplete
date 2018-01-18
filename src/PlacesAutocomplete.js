@@ -36,6 +36,7 @@ class PlacesAutocomplete extends Component {
 
     this.autocompleteService = new mapsClient.places.AutocompleteService()
     this.autocompleteOK = mapsClient.places.PlacesServiceStatus.OK
+    this.predictionsFilter = this.props.filterResults || (x => x)
   }
 
   autocompleteCallback(predictions, status) {
@@ -53,7 +54,7 @@ class PlacesAutocomplete extends Component {
     const { highlightFirstSuggestion } = this.props
 
     this.setState({
-      autocompleteItems: predictions.map((p, idx) => ({
+      autocompleteItems: predictions.filter(this.predictionsFilter).map((p, idx) => ({
         suggestion: p.description,
         placeId: p.place_id,
         active: highlightFirstSuggestion && idx === 0 ? true : false,
